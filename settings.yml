@@ -1,0 +1,22 @@
+project:
+  root_dir: C:/Users/phili/Google Drive/Projekter/Google keywords/google_results_count
+  root_dir_server: C:/Users/phili/Google Drive/Projekter/Google keywords/google_results_count
+  pipeline_dir: 'pipelines'
+  raw_data_dir: 'data/0_raw'
+  interim_data_dir: 'data/1_interim'
+  final_data_dir: 'data/2_final'
+  export_filename: 'google_results_count'
+
+query:
+  keywords: [
+            'ESG', 
+            'sustainable finance', 
+            'responsible investment', 
+            'impact investing', 
+            'green finance', 
+            'sustainable investment', 
+            'socially responsible investment', 
+            'greenwashing'
+            ]
+  user_agent: {"User-Agent": "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36"}
+  google_url: "https://www.google.com/search?q="
