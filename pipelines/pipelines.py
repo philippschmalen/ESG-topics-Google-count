@@ -55,7 +55,7 @@ def main():
 	with open(r'../settings.yml') as file:
 	    settings = yaml.full_load(file)
 
-	    PROJECT_DIR  = settings['project']['root_dir']
+	    PROJECT_DIR  = './'
 	    RAW_DATA_DIR = settings['project']['raw_data_dir']
 	    FILENAME     = f"{settings['project']['export_filename']}_{datetime.now().strftime('%Y%m%d_%H%M')}.csv" 
 	    FILEPATH     = os.path.join(PROJECT_DIR, RAW_DATA_DIR, FILENAME)
