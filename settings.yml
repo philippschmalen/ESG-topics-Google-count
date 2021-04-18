@@ -1,6 +1,4 @@
 project:
-  root_dir: C:/Users/phili/Google Drive/Projekter/Google keywords/google_results_count
-  root_dir_server: C:/Users/phili/Google Drive/Projekter/Google keywords/google_results_count
   pipeline_dir: 'pipelines'
   raw_data_dir: 'data/0_raw'
   interim_data_dir: 'data/1_interim'
