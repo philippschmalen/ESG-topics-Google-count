@@ -64,7 +64,7 @@ def main():
 	    GOOGLE_URL   = settings['query']['google_url']
 
 	# ~----------------- FLOW -----------------~
-	~-- daily schedule
+	# ~-- daily schedule
 	schedule = IntervalSchedule(
 		start_date= datetime.strptime("20210424-041000UTC", "%Y%m%d-%H%M%S%Z"), 
 		# start_date=datetime.utcnow() + timedelta(seconds=1),
