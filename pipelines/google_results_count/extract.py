@@ -3,6 +3,7 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
+import logging
 
 def get_search_urls(keyword_list, url="https://www.google.com/search?q="):
     """ Compose search urls """
@@ -38,7 +39,7 @@ def assert_df(df, keyword_list, url="https://www.google.com/search?q="):
     # length
     assert len(df) == len(keyword_list), f"{len(df)} does not equal {len(keyword_list)}"
     
-    print("Success >>>>>>>>>>\tDataframe meets expectations\n")
+    logging.info("Success >>>>>>>>>>\tDataframe meets expectations")
     
 def df_build_results_count(keyword_list, user_agent, url="https://www.google.com/search?q="):
     search_urls = get_search_urls(keyword_list)

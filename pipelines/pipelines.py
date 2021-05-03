@@ -65,13 +65,13 @@ def main():
 
 	# ~----------------- FLOW -----------------~
 	# ~-- daily schedule
-	schedule = IntervalSchedule(
-		start_date= datetime.strptime("20210424-041000UTC", "%Y%m%d-%H%M%S%Z"), 
-		# start_date=datetime.utcnow() + timedelta(seconds=1),
-		interval=timedelta(days=1),
-	)
+	# schedule = IntervalSchedule(
+	# 	start_date= datetime.strptime("20210424-041000UTC", "%Y%m%d-%H%M%S%Z"), 
+	# 	# start_date=datetime.utcnow() + timedelta(seconds=1),
+	# 	interval=timedelta(days=1),
+	# )
 
-	with Flow("etl", schedule=schedule) as flow:
+	with Flow("etl") as flow: # , schedule=schedule
 
 		# parameter
 		filepath 	 = Parameter(name="filepath")
