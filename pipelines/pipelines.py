@@ -22,12 +22,14 @@ logging.basicConfig(
 )
 
 
-
+# -------------------------------------------------
+# Extract raw data
+# -------------------------------------------------
 @task
 def create_search_url(keyword_list, url):
 	return extract.get_search_urls(keyword_list, url)
 
-@task(max_retries=1, retry_delay=timedelta(seconds=10))
+@task(max_retries=2, retry_delay=timedelta(seconds=10))
 def extract_result_count(search_urls, user_agent, url):
 	result_count = [extract.get_results_count(url, user_agent) for url in search_urls]
 	return result_count
@@ -48,6 +50,9 @@ def assert_df(df, keyword_list, url):
 def export(df, path):
 	load.write_to_csv(df, path)
 
+# -------------------------------------------------
+# Prepare data analysis
+# -------------------------------------------------
 
 
 def main():
