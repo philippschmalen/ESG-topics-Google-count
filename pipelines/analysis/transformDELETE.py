@@ -1,12 +1,11 @@
 """
 ~-- TRANSFORM
-Prepares the raw data, making it ready for analysis. 
-Stores dataset in data/2_final
+Transforms the raw data from the external data directory (data/0_raw) 
+for analysis. 
 """
 
-import pandas as pd 
+import pandas as pd
 import logging
-from datetime import date
 
 def impute_results_count(df):
     """ Impute timestamp to daily observations, interpolate with polynomial """
@@ -25,24 +24,11 @@ def impute_results_count(df):
         df_temp = df.set_index('query_timestamp')\
                 .query(f"keyword=='{kw}'")\
                 .resample('D').mean()\
-                .results_count.interpolate(method='polynomial', order=3)\
+                .results_count.interpolate(method='polynomial', order=5)\
                 .reset_index() 
         df_temp['keyword'],df_temp['search_url']  = kw, url
         df_list.append(df_temp)
         
     df = pd.concat(df_list)
-    
-    return df
-
-def feature_engineering(df):
-    """Add statistics to raw data to analyze changes across time"""
-
-    # day-to-day change  
-    df['result_count_absolute_change'] = df.groupby('keyword').results_count.diff().reset_index(drop=True) # day-to-day absolute change
-    df['result_count_relative_change'] = (df.result_count_absolute_change/df.results_count*100) # day-to-day relative change 
-
-    # overall days keyword already tracked
-    df['start_date'], df['end_date'] = df.groupby('keyword').query_timestamp.transform('min'), df.groupby('keyword').query_timestamp.transform('max')
-    df['days_tracked'] = (df['end_date']-df['start_date']).dt.days
     
     return df

@@ -8,7 +8,7 @@ import os
 import pandas as pd
 import logging
 
-def load_data(raw_data_dir, filename):
+def load(raw_data_dir, filename):
     # merge all data from directory
     data_files = glob(f'{os.path.join(raw_data_dir, filename)}*')
     logging.info(
@@ -43,13 +43,5 @@ def assert_raw_df(df):
     assert len(assert_columns) == 0,\
         f"Expected columns {expected_columns}.\nFound {assert_columns} instead."
     # assert at least 1 datetime column
-    assert (df.dtypes == 'datetime64[ns]').any(), "Column type 'Datetime64[ns]' not found in dataframe "
+    assert (df.dtypes == 'datetime64[ns]').any(), "Column type 'Datetime64[ns]' not found in dataframe"
 
-
-
-# ------------ TESTING
-# logging.basicConfig(level=logging.INFO)
-# df = load_data(raw_data_dir='../../data/0_raw', filename='google_results_count')
-#                 # .pipe(impute_results_count)).reset_index(drop=True)
-
-# print(df.head())
