@@ -46,3 +46,23 @@ def feature_engineering(df):
     df['days_tracked'] = (df['end_date']-df['start_date']).dt.days
     
     return df
+
+def subset_last_x_days(df, last_x_days=30):
+    """ """
+    # date_lxdays: exact date x days ago
+    df['date_lxdays'] = df.groupby('keyword').query_timestamp.transform('max') - pd.Timedelta(days=last_x_days) 
+    # for keywords added <30 days ago: replace with start_date
+    df['date_lxdays'] = df.apply(lambda x: x.start_date if x.date_lxdays < x.start_date else x.date_lxdays, axis=1)
+    
+    # -- subset df to focus on overall change from start to end date 
+    # select l30days per keyword (groupby)
+    df = df.loc[(df.query_timestamp == df.date_lxdays) | (df.query_timestamp == df.end_date)].set_index('keyword') 
+    df['lxdays_absolute_change'] = df.groupby('keyword').results_count.diff()
+
+    # subset df to show overall changes from start_date (=when entered into list) to end_date (=mostly today)
+    df_overall_change = df.dropna().reset_index()
+    
+    df_overall_change['results_count_xdaysago'] = df.loc[df.query_timestamp == df.date_lxdays].results_count.reset_index(drop=True)
+    df_overall_change['lxdays_relative_change'] = ((df_overall_change.results_count / df_overall_change.results_count_xdaysago)-1)*100
+    
+    return df_overall_change

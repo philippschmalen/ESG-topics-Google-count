@@ -10,8 +10,7 @@ from prefect.schedules import IntervalSchedule
 
 # custom
 from google_results_count import extract, load
-from analysis import load_raw_data
-from analysis import transform
+from analysis import load_raw_data, transform, plot
 
 # -- for logging
 import logging
@@ -74,11 +73,20 @@ def transform_raw_data():
 def export_analysis_data(df, path):
     load.write_to_csv(df, path)
 
+@task
+def deploy_plots(df):
+    # subset df for last x days
+    df_lxdays = transform.subset_last_x_days(df, last_x_days=30)
 
-# @task
-# def deploy_plots():
-#     # TODO: create module in ./pipelines
-#     pass
+    plot.set_layout_template()
+    fig_timeline = plot.plot_timeline(df)
+    fig_change = plot.plot_change(df_lxdays)
+
+    plot.deploy_figure(fig_timeline, filename="google_results_count_timeline")
+    plot.deploy_figure(fig_change, filename="google_results_count_change")
+
+    
+
 
 
 def main():
@@ -97,13 +105,13 @@ def main():
         GOOGLE_URL = settings['query']['google_url']
 
     # ~----------------- FLOW -----------------~
-    # ~-- daily schedule
-    # schedule = IntervalSchedule(
-    #     start_date=datetime.strptime("20210424-041000UTC", "%Y%m%d-%H%M%S%Z"),
-    #     interval=timedelta(days=1),
-    # )
+    ~-- daily schedule
+    schedule = IntervalSchedule(
+        start_date=datetime.strptime("20210424-041000UTC", "%Y%m%d-%H%M%S%Z"),
+        interval=timedelta(days=1),
+    )
 
-    with Flow("etl") as flow: # , schedule=schedule
+    with Flow("etl", schedule=schedule) as flow: 
 
         # parameter
         filepath_raw = Parameter(name="filepath_raw")
@@ -121,9 +129,11 @@ def main():
         assert_df(df, keywords, google_url)
         export_raw_data(df, filepath_raw)
 
-        # -- analysis data
+        # -- analysis data and plot
         df = transform_raw_data()
         export_analysis_data(df, filepath_analysis)
+        deploy_plots(df)
+
 
     # ~----------------- RUN -----------------~
     flow.run(filepath_raw=FILEPATH_RAW,
