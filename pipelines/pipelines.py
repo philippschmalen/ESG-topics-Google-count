@@ -106,12 +106,12 @@ def main():
 
     # ~----------------- FLOW -----------------~
     # ~-- daily schedule
-    schedule = IntervalSchedule(
-        start_date=datetime.strptime("20210424-041000UTC", "%Y%m%d-%H%M%S%Z"),
-        interval=timedelta(days=1),
-    )
-
-    with Flow("etl", schedule=schedule) as flow: 
+    # schedule = IntervalSchedule(
+    #     start_date=datetime.strptime("20210424-030500UTC", "%Y%m%d-%H%M%S%Z"),
+    #     interval=timedelta(days=1),
+    # )
+    # , schedule=schedule
+    with Flow("etl") as flow: 
 
         # parameter
         filepath_raw = Parameter(name="filepath_raw")

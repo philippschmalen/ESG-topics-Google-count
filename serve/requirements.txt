@@ -3,3 +3,4 @@ pandas==1.2.2
 prefect==0.14.11
 beautifulsoup4==4.9.3
 requests==2.25.1
+scipy==1.6.1

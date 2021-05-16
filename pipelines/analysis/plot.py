@@ -147,12 +147,6 @@ def deploy_figure(figure, filename):
 
 
 # ------------------ TESTING ------------------ 
-
-# -------- settings --------
-
-
-# -------------------------
-
 # import streamlit as st
 # import sys
 # sys.path.append("../")
