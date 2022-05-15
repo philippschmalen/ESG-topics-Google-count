@@ -24,3 +24,15 @@ Track how many Google results exist for a specified keyword.
 * create `tsf` database
 * create table `google-results-count`
 * install pre-commit hooks, flake8, black, mypy
+
+## Get started
+
+Prerequisites: Docker
+
+```bash
+# build image
+docker build -t esg .
+
+# for development pass build-args
+docker build --build-arg "ENV=DEV" -t esg-dev .
+```

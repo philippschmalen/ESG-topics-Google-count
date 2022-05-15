@@ -1,0 +1,25 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+numpy = "*"
+prefect = ">=2.0b"
+pandas = "*"
+beautifulsoup4 = "*"
+requests = "*"
+pyyaml = "*"
+chart-studio = "*"
+plotly = "*"
+
+[dev-packages]
+ipykernel = "*"
+pytest = "*"
+pre-commit = "*"
+black = "*"
+flake8 = "*"
+mypy = "*"
+
+[requires]
+python_version = "3.9"
